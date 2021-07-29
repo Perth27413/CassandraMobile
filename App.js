@@ -1,13 +1,15 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import Home from './components/Home'
+import Register from './components/Register'
 
 const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.head}/>
       <View style={styles.main}>
-        <Home />
+        {/* <Home/> */}
+        <Register/>
       </View>
     </View>
   )

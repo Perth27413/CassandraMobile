@@ -1,17 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, StyleSheet, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 
 const Home = () => {
   const [play, setPlay] = React.useState(
     {name: 'play',
     state: 0});
-
-  const iconPause = () => {
-    return (
-      <Icon name='pausecircle' size={30} color="#18BCBE" style={styles.startStopButton}/>
-    )
-  }
 
   return (
     <View style={styles.home}>
