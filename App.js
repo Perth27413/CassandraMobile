@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import Home from './components/Home'
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.head}></View>
+      <View style={styles.head}/>
       <View style={styles.main}>
         <Home />
       </View>
