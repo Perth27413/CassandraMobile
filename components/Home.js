@@ -10,31 +10,46 @@ const Home = () => {
       name: 'play',
       state: 0
     });
-  const [hours, setHours] = React.useState(0);
-  const [minutes, setMinutes] = React.useState(0);
+  const [hours, setHours] = React.useState(0)
+  const [minutes, setMinutes] = React.useState(0)
+  const [second, setsecond] = React.useState(0)
 
   React.useEffect(() => {
 
   }, [play.state, minutes])
 
   const count = () => {
-    if (play.state === 0) {
-      setPlay({ ...play, ...{ name: 'pausecircle', state: 1 }})
-    } else {
-      setPlay({ ...play, ...{ name: 'play', state: 0 } })
-    }
-
-    timer = BackgroundTimer.setInterval(() => {
-      console.log('min  ' + minutes)
-      console.log('555')
-      let time = 1
-      setMinutes(times => times = time+1)
-    }, 1500)
+    setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0}})
+    
   }
+
+  React.useEffect(() => {
+    if (play.state) {
+      timer = BackgroundTimer.runBackgroundTimer(() => {
+        setsecond(prevTime => prevTime + 1)
+      }, 1000)
+    } else {
+      BackgroundTimer.stopBackgroundTimer(timer)
+    }
+  }, [play])
+
+  React.useEffect(() => {
+    if (second >= 60) {
+      setMinutes(prev => prev + 1)
+      setsecond(prevTime => prevTime = 0)
+    }
+  }, [second])
+
+  React.useEffect(() => {
+    if (minutes >= 60) {
+      setHours(prev => prev + 1)
+      setMinutes(0)
+      setsecond(0)
+    }
+  }, [minutes])
 
   return (
     <View style={styles.home}>
-      <Text>{play.state}, {minutes}</Text>
       <View style={styles.imageBox}>
         <Image style={styles.profileImage} source={{ uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529' }} />
       </View>
@@ -74,7 +89,7 @@ const Home = () => {
           <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
         </View>
         <View style={styles.textTime}>
-          <Text style={{ textAlign: 'center' }}>{hours} hours {minutes} minutes</Text>
+          <Text style={{ textAlign: 'center' }}>{hours} hours {minutes} minutes {second} seconds</Text>
         </View>
         <View style={styles.iconLocation}>
           <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} />
@@ -226,15 +241,15 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   iconHome: {
-    width: '33.33%',
+    width: '20%',
   },
   textTime: {
-    width: '33.33%',
+    width: '60%',
     marginTop: 25,
     fontSize: 14,
   },
   iconLocation: {
-    width: '33.33%',
+    width: '20%',
   },
   startStopButton: {
     backgroundColor: '#fff',
