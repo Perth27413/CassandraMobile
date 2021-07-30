@@ -1,16 +1,42 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image} from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
+import BackgroundTimer from 'react-native-background-timer';
 
 const Home = () => {
+  var timer
   const [play, setPlay] = React.useState(
-    {name: 'play',
-    state: 0});
+    {
+      name: 'play',
+      state: 0
+    });
+  const [hours, setHours] = React.useState(0);
+  const [minutes, setMinutes] = React.useState(0);
+
+  React.useEffect(() => {
+
+  }, [play.state, minutes])
+
+  const count = () => {
+    if (play.state === 0) {
+      setPlay({ ...play, ...{ name: 'pausecircle', state: 1 }})
+    } else {
+      setPlay({ ...play, ...{ name: 'play', state: 0 } })
+    }
+
+    timer = BackgroundTimer.setInterval(() => {
+      console.log('min  ' + minutes)
+      console.log('555')
+      let time = 1
+      setMinutes(times => times = time+1)
+    }, 1500)
+  }
 
   return (
     <View style={styles.home}>
+      <Text>{play.state}, {minutes}</Text>
       <View style={styles.imageBox}>
-        <Image style={styles.profileImage} source={{uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529'}} />
+        <Image style={styles.profileImage} source={{ uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529' }} />
       </View>
       <View style={styles.box}>
         <Text style={styles.name}>Thanos Ieieie</Text>
@@ -40,22 +66,19 @@ const Home = () => {
         </View>
       </View>
       <Icon name={play.name} size={80} color="#18BCBE" style={styles.startStopButton} onPress={() => {
-        if (play.state === 0) {
-          setPlay({name: 'pausecircle' ,state: 1})
-        }else{
-          setPlay({name: 'play' ,state: 0})
-        }}}
+        count()
+      }}
       />
       <View style={styles.footer}>
         <View style={styles.iconHome}>
-          <Icon name='home' size={40} color="#18BCBE" style={{textAlign: 'left'}}/>
+          <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
         </View>
         <View style={styles.textTime}>
-          <Text style={{textAlign: 'center'}}>1 hour 21 minute</Text>
+          <Text style={{ textAlign: 'center' }}>{hours} hours {minutes} minutes</Text>
         </View>
         <View style={styles.iconLocation}>
-          <Icon name='enviromento' size={40} color="#18BCBE" style={{textAlign: 'right'}}/>
-        </View> 
+          <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} />
+        </View>
       </View>
     </View>
   )
@@ -169,7 +192,7 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     marginRight: 1,
   },
-  textTopic : {
+  textTopic: {
     fontFamily: 'Roboto-Bold',
     fontSize: 17,
     color: '#fff',
@@ -221,7 +244,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     bottom: 27,
   }
-    
+
 })
 
 export default Home

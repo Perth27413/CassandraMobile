@@ -6,10 +6,10 @@ import Register from './components/Register'
 const App = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.head}/>
+      <View style={styles.head} />
       <View style={styles.main}>
-        {/* <Home/> */}
-        <Register/>
+        {/* <Register /> */}
+        <Home/>
       </View>
     </View>
   )
