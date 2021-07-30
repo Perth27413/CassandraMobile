@@ -1,13 +1,15 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Home from './components/Home'
+import Detail from './components/Detail'
 
 const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.head}></View>
       <View style={styles.main}>
-        <Home />
+        {/* <Home /> */}
+        <Detail />
       </View>
     </View>
   )
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
   main: {
     position: 'absolute',
     width: '100%',
-    height: '100%'
+    // height: '100%',
   }
 })
 
