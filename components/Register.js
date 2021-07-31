@@ -1,44 +1,61 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
 
-const Register = () => {
+const Register = ({ navigation }) => {
     return (
-        <View style={styles.home}>
-            <Text style={styles.textCassandra}>Cassandra</Text>
-            <View style={styles.switchButton}>
-                <View style={styles.buttonRegister}>
-                    <Text style={styles.textButtonRegister}>Register</Text>
-                </View>
-                <View style={styles.buttonLogin}>
-                    <Text style={styles.textButtonlogin}>Login</Text>
+        <View style={styles.container}>
+            <View style={styles.head} />
+            <View style={styles.main}>
+                <View style={styles.home}>
+                    <Text style={styles.textCassandra}>Cassandra</Text>
+                    <View style={styles.switchButton}>
+                        <View style={styles.buttonRegister}>
+                            <Text style={styles.textButtonRegister}>Register</Text>
+                        </View>
+                        <View style={styles.buttonLogin}>
+                            <Text style={styles.textButtonlogin}>Login</Text>
+                        </View>
+                    </View>
+                    <View style={styles.boxTop}>
+                        <Text style={styles.textLabal}>Username</Text>
+                        <TextInput style={styles.input} />
+                        <Text style={styles.textLabal}>Password</Text>
+                        <TextInput style={styles.input} />
+                    </View>
+                    <View style={styles.boxBottom}>
+                        <Text style={styles.textLabal}>Email</Text>
+                        <TextInput style={styles.input} />
+                        <Text style={styles.textLabal}>First name</Text>
+                        <TextInput style={styles.input} />
+                        <Text style={styles.textLabal}>last name</Text>
+                        <TextInput style={styles.input} />
+                        <Text style={styles.textLabal}>Phone number</Text>
+                        <TextInput style={styles.input} />
+                    </View>
+                    <TouchableHighlight onPress={() => navigation.navigate('home')} style={styles.buttonHighlight}>
+                        <View style={styles.nextButton}>
+                            <Text style={styles.textNext}>Next</Text>
+                        </View>
+                    </TouchableHighlight>
                 </View>
             </View>
-            <View style={styles.boxTop}>
-                <Text style={styles.textLabal}>Username</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textLabal}>Password</Text>
-                <TextInput style={styles.input} />
-            </View>
-            <View style={styles.boxBottom}>
-                <Text style={styles.textLabal}>Email</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textLabal}>First name</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textLabal}>last name</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textLabal}>Phone number</Text>
-                <TextInput style={styles.input} />
-            </View>
-            <TouchableHighlight onPress={() => { }} style={styles.buttonHighlight}>
-                <View style={styles.nextButton}>
-                    <Text style={styles.textNext}>Next</Text>
-                </View>
-            </TouchableHighlight>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    head: {
+        backgroundColor: '#18BCBE',
+        height: 250
+    },
+    main: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
+    },
     home: {
         flex: 1,
         flexDirection: 'column',

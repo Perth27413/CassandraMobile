@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import BackgroundTimer from 'react-native-background-timer';
 
@@ -14,13 +14,9 @@ const Home = () => {
   const [minutes, setMinutes] = React.useState(0)
   const [second, setsecond] = React.useState(0)
 
-  React.useEffect(() => {
-
-  }, [play.state, minutes])
-
   const count = () => {
-    setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0}})
-    
+    setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0 } })
+
   }
 
   React.useEffect(() => {
@@ -49,50 +45,56 @@ const Home = () => {
   }, [minutes])
 
   return (
-    <View style={styles.home}>
-      <View style={styles.imageBox}>
-        <Image style={styles.profileImage} source={{ uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529' }} />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.name}>Thanos Ieieie</Text>
-        <Text style={styles.position}>Rider</Text>
-        <Text style={styles.motorcycle}>Honda Wave 110i</Text>
-        <View style={styles.btnBox}>
-          <View style={styles.totalCarbon}>
-            <Text style={styles.textTopic}>Total Carbon</Text>
-            <Text style={styles.textVolume}>3000</Text>
-            <Text style={styles.textUnit}>gram</Text>
+    <View style={styles.container}>
+      <View style={styles.head} />
+      <View style={styles.main}>
+        <View style={styles.homeContainer}>
+          <View style={styles.imageBox}>
+            <Image style={styles.profileImage} source={{ uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529' }} />
           </View>
-          <View style={styles.totalEarn}>
-            <Text style={styles.textTopic}>Total Earn</Text>
-            <Text style={styles.textVolume}>30</Text>
-            <Text style={styles.textUnit}>Dollars</Text>
+          <View style={styles.box}>
+            <Text style={styles.name}>Thanos Ieieie</Text>
+            <Text style={styles.position}>Rider</Text>
+            <View style={styles.conMotorcycle}>
+              <Text style={styles.motorcycle}>Honda Wave 110i</Text>
+            </View>
+            <View style={styles.btnBox}>
+              <View style={styles.totalCarbon}>
+                <Text style={styles.textTopic}>Total Carbon</Text>
+                <Text style={styles.textVolume}>3000</Text>
+                <Text style={styles.textUnit}>gram</Text>
+              </View>
+              <View style={styles.totalEarn}>
+                <Text style={styles.textTopic}>Total Earn</Text>
+                <Text style={styles.textVolume}>30</Text>
+                <Text style={styles.textUnit}>Dollars</Text>
+              </View>
+              <View style={styles.todayCarbon}>
+                <Text style={styles.textTopic}>Today Carbon</Text>
+                <Text style={styles.textVolume}>3000</Text>
+                <Text style={styles.textUnit}>gram</Text>
+              </View>
+              <View style={styles.todayEarn}>
+                <Text style={styles.textTopic}>Today Earn</Text>
+                <Text style={styles.textVolume}>1.2</Text>
+                <Text style={styles.textUnit}>Dollars</Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.todayCarbon}>
-            <Text style={styles.textTopic}>Today Carbon</Text>
-            <Text style={styles.textVolume}>3000</Text>
-            <Text style={styles.textUnit}>gram</Text>
+          <TouchableHighlight onPress={() => count()} style={styles.buttonHighlight} underlayColor='#fff'>
+            <Icon name={play.name} size={80} color="#18BCBE" style={styles.startStopButton} />
+          </TouchableHighlight>
+          <View style={styles.footer}>
+            <View style={styles.iconHome}>
+              <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
+            </View>
+            <View style={styles.textTime}>
+              <Text style={{ textAlign: 'center' }}>{hours} hr : {minutes} min : {second} s</Text>
+            </View>
+            <View style={styles.iconLocation}>
+              <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} />
+            </View>
           </View>
-          <View style={styles.todayEarn}>
-            <Text style={styles.textTopic}>Today Earn</Text>
-            <Text style={styles.textVolume}>1.2</Text>
-            <Text style={styles.textUnit}>Dollars</Text>
-          </View>
-        </View>
-      </View>
-      <Icon name={play.name} size={80} color="#18BCBE" style={styles.startStopButton} onPress={() => {
-        count()
-      }}
-      />
-      <View style={styles.footer}>
-        <View style={styles.iconHome}>
-          <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
-        </View>
-        <View style={styles.textTime}>
-          <Text style={{ textAlign: 'center' }}>{hours} hours {minutes} minutes {second} seconds</Text>
-        </View>
-        <View style={styles.iconLocation}>
-          <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} />
         </View>
       </View>
     </View>
@@ -100,7 +102,19 @@ const Home = () => {
 }
 
 const styles = StyleSheet.create({
-  home: {
+  container: {
+    flex: 1,
+  },
+  head: {
+    backgroundColor: '#18BCBE',
+    height: 250
+  },
+  main: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  },
+  homeContainer: {
     flex: 2,
     flexDirection: 'column',
     alignItems: 'center'
@@ -108,16 +122,16 @@ const styles = StyleSheet.create({
   imageBox: {
     zIndex: 1,
     position: 'absolute',
-    top: 75,
-    width: 150,
-    height: 150,
-    borderRadius: 150 / 2,
+    top: 70,
+    width: 130,
+    height: 130,
+    borderRadius: 130 / 2,
     elevation: 2
   },
   profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 150 / 2,
+    width: 130,
+    height: 130,
+    borderRadius: 130 / 2,
   },
   box: {
     paddingBottom: 20,
@@ -125,7 +139,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     zIndex: 0,
     position: 'absolute',
-    marginTop: 150,
+    marginTop: 140,
     backgroundColor: '#ffffff',
     width: 350,
     height: 500,
@@ -144,28 +158,39 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: 'Roboto-Bold',
-    marginTop: 85,
+    marginTop: 65,
     fontWeight: 'bold',
     fontSize: 25,
   },
   position: {
     fontFamily: 'Roboto-Bold',
     fontWeight: 'bold',
-    marginTop: 5,
+    marginTop: 1,
     fontSize: 16,
     color: '#67BE5A'
   },
+  conMotorcycle: {
+    marginTop: 12,
+    width: 250,
+    height: 35,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#18BCBE'
+  },
   motorcycle: {
+    marginTop:4,
     fontFamily: 'Roboto-Bold',
-    marginTop: 10,
     fontSize: 19,
+    color: 'black',
   },
   btnBox: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    marginTop: 30,
+    marginTop: 22,
     paddingTop: 5,
     width: '100%',
     // backgroundColor: 'red'
@@ -253,6 +278,9 @@ const styles = StyleSheet.create({
   },
   startStopButton: {
     backgroundColor: '#fff',
+    borderRadius: 80 / 2,
+  },
+  buttonHighlight: {
     zIndex: 1,
     position: 'absolute',
     borderRadius: 80 / 2,
