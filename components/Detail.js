@@ -1,23 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 const Detail = () => {
+  const [carbon, setCarbon] = useState(500)
+  const [test, setTest] = useState({
+    numCarbon: 500,
+    numKilo : 50,
+    numTime : 13
+  })
   return (
     <View style={styles.Detail}>
       <Text style={styles.detailText}>Details</Text>
       <View style={styles.detailBox}>
         <View style={styles.textStyle}>
           <Text style={styles.totalCarbon}>Total Carbon</Text>
-          <Text style={styles.valueCarbon}>9999999</Text>
+          <Text style={styles.valueCarbon}>{carbon}</Text>
         </View>
         <View style={styles.textStyle}>
           <Text style={styles.avgCarbon}>AVG. Carbon</Text>
-          <Text style={styles.valueAvg}>9999999</Text>
+          <Text style={styles.valueAvg}>{carbon}</Text>
         </View>
         <View style={styles.line}></View>
         <View style={styles.textStyle}>
           <Text style={styles.totalTime}>Total Time</Text>
-          <Text style={styles.valueTime}>9999999</Text>
+          <Text style={styles.valueTime}>{carbon}</Text>
         </View>
       </View>
       <Text style={styles.textUpdate}>Last update : เมื่อไม่นานมานี้ </Text>
