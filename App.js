@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Home from './components/Home'
 import Detail from './components/Detail'
+import RiderRegister from './components/RiderRegister'
 
 const App = () => {
   return (
