@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import BackgroundTimer from 'react-native-background-timer';
 
-const Home = () => {
+const Home = ({navigation}) => {
   var timer
   const [play, setPlay] = React.useState(
     {
@@ -92,7 +92,7 @@ const Home = () => {
               <Text style={{ textAlign: 'center' }}>{hours} hr : {minutes} min : {second} s</Text>
             </View>
             <View style={styles.iconLocation}>
-              <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} />
+              <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} onPress={() => navigation.navigate('detail')} />
             </View>
           </View>
         </View>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native'
 
 const Register = ({ navigation }) => {
     return (

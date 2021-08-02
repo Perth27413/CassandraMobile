@@ -10,6 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "babel-plugin-react-native-classname-to-style": "^1.2.2",
+    "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
+    "node-sass": "^6.0.1",
     "react": "17.0.1",
     "react-icons": "^4.2.0",
     "react-native": "0.64.2",
@@ -19,6 +22,7 @@
     "react-native-reanimated": "^1.13.3",
     "react-native-router-flux": "^4.3.1",
     "react-native-safe-area-context": "^3.2.0",
+    "react-native-sass-transformer": "^1.4.0",
     "react-native-screens": "^3.4.0",
     "react-native-vector-icons": "^8.1.0",
     "@react-navigation/native": "^5.9.4",
