@@ -1,45 +1,50 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 const Detail = () => {
   const [carbon, setCarbon] = useState(500)
   const [test, setTest] = useState({
     numCarbon: 500,
-    numKilo : 50,
-    numTime : 13
+    numKilo: 50,
+    numTime: 13
   })
   return (
-    <View style={styles.Detail}>
-      <Text style={styles.detailText}>Details</Text>
-      <View style={styles.detailBox}>
-        <View style={styles.textStyle}>
-          <Text style={styles.totalCarbon}>Total Carbon</Text>
-          <Text style={styles.valueCarbon}>{carbon}</Text>
-        </View>
-        <View style={styles.textStyle}>
-          <Text style={styles.avgCarbon}>AVG. Carbon</Text>
-          <Text style={styles.valueAvg}>{carbon}</Text>
-        </View>
-        <View style={styles.line}></View>
-        <View style={styles.textStyle}>
-          <Text style={styles.totalTime}>Total Time</Text>
-          <Text style={styles.valueTime}>{carbon}</Text>
-        </View>
-      </View>
-      <Text style={styles.textUpdate}>Last update : เมื่อไม่นานมานี้ </Text>
-      <View style={styles.carbonBox}>
-        <View style={styles.left}>
-          <Text style={styles.time}>13:00</Text>
-        </View>
-        <View style={styles.right}>
-          <View style={styles.carbonGram}>
-            <Text style={styles.numberCarbon}>500</Text>
-            <Text style={styles.gram}>gram</Text>
+    <View style={styles.container}>
+      <View style={styles.head} />
+      <View style={styles.main}>
+        <View style={styles.Detail}>
+          <Text style={styles.detailText}>Details</Text>
+          <View style={styles.detailBox}>
+            <View style={styles.textStyle}>
+              <Text style={styles.totalCarbon}>Total Carbon</Text>
+              <Text style={styles.valueCarbon}>{carbon}</Text>
+            </View>
+            <View style={styles.textStyle}>
+              <Text style={styles.avgCarbon}>AVG. Carbon</Text>
+              <Text style={styles.valueAvg}>{carbon}</Text>
+            </View>
+            <View style={styles.line}></View>
+            <View style={styles.textStyle}>
+              <Text style={styles.totalTime}>Total Time</Text>
+              <Text style={styles.valueTime}>{carbon}</Text>
+            </View>
           </View>
-          <View style={styles.verticleLine}></View>
-          <View style={styles.distance}>
-            <Text style={styles.kilo}>50 km</Text>
-            <Text style={styles.minute}>13 minute</Text>
+          <Text style={styles.textUpdate}>Last update : เมื่อไม่นานมานี้ </Text>
+          <View style={styles.carbonBox}>
+            <View style={styles.left}>
+              <Text style={styles.time}>13:00</Text>
+            </View>
+            <View style={styles.right}>
+              <View style={styles.carbonGram}>
+                <Text style={styles.numberCarbon}>500</Text>
+                <Text style={styles.gram}>gram</Text>
+              </View>
+              <View style={styles.verticleLine}></View>
+              <View style={styles.distance}>
+                <Text style={styles.kilo}>50 km</Text>
+                <Text style={styles.minute}>13 minute</Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>
@@ -48,20 +53,32 @@ const Detail = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  head: {
+    backgroundColor: '#18BCBE',
+    height: 250
+  },
+  main: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  },
   detailText: {
     fontFamily: 'Roboto-Bold',
     color: 'white',
-    fontSize: 25,
+    fontSize: 35,
     fontWeight: 'bold',
-    marginTop: 30,
+    marginTop: 40,
     marginLeft: 30
   },
   detailBox: {
     position: 'relative',
     width: 350,
-    height: 150,
+    height: 160,
     backgroundColor: '#ffffff',
-    top: 80,
+    top: 40,
     left: 30,
     borderRadius: 10,
     shadowColor: '#000',
@@ -82,23 +99,27 @@ const styles = StyleSheet.create({
   totalCarbon: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginLeft: 20,
-    marginTop: 10
+    marginTop: 15
   },
   valueCarbon: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginRight: 20,
-    marginTop: 10
+    marginTop: 15
   },
   avgCarbon: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginLeft: 20,
   },
   valueAvg: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginRight: 20,
   },
   line: {
@@ -110,20 +131,22 @@ const styles = StyleSheet.create({
   totalTime: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginLeft: 20,
     top: 10
   },
   valueTime: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 18,
     marginRight: 20,
     top: 10
   },
   textUpdate: {
-    color: 'red',
-    marginTop: 100,
-    marginLeft: 200,
-    fontSize: 15
+    color: '#FD7777',
+    marginTop: 70,
+    marginLeft: 218,
+    fontSize: 13
   },
   carbonBox: {
     flex: 1,
