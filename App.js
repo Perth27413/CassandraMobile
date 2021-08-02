@@ -3,6 +3,7 @@ import React from 'react'
 import Home from './components/Home'
 import Register from './components/Register'
 import Detail from './components/Detail'
+import RiderRegister from './components/RiderRegister'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -16,6 +17,7 @@ const App = () => {
         <Stack.Screen name='register' component={Register} />
         <Stack.Screen name='home' component={Home} />
         <Stack.Screen name='detail' component={Detail} />
+        <Stack.Screen name='riderRegister' component={RiderRegister} />
       </Stack.Navigator>
     </NavigationContainer>
   )

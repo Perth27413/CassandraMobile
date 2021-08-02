@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
                         <Text style={styles.textLabal}>Phone number</Text>
                         <TextInput style={styles.input} />
                     </View>
-                    <TouchableHighlight onPress={() => navigation.navigate('home')} style={styles.buttonHighlight}>
+                    <TouchableHighlight onPress={() => navigation.navigate('riderRegister')} style={styles.buttonHighlight}>
                         <View style={styles.nextButton}>
                             <Text style={styles.textNext}>Next</Text>
                         </View>
@@ -40,7 +40,7 @@ const Register = ({ navigation }) => {
                 </View>
             </View>
         </View>
-    )
+    ) 
 }
 
 const styles = StyleSheet.create({

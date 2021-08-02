@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   detailText: {
     fontFamily: 'Roboto-Bold',
     color: 'white',
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: 'bold',
     marginTop: 40,
     marginLeft: 30

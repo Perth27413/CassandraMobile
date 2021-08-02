@@ -1,38 +1,40 @@
-import React, {useState} from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableHighlight } from 'react-native'
 
-const RiderRegister = () => {
-    return (
-      <View style={styles.container}>
-        <View style={styles.head} />
-        <View style={styles.main}>
-          <View style={styles.home}>
-            <Text style={styles.textCassandra}>Cassandra</Text>
-              <View style={styles.switchButton}>
-                <View style={styles.buttonRegister}>
-                  <Text style={styles.textButtonRegister}>Register</Text>
-                </View>
-                <View style={styles.buttonLogin}>
-                  <Text style={styles.textButtonlogin}>Login</Text>
-                </View>
-              </View>
-              <View style={styles.registerBox}>
-                <Text style={styles.textStyles}>Brand</Text>
-                  <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>CC.</Text>
-                  <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>Model</Text>
-                  <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>Year</Text>
-                  <TextInput style={styles.input} />
-                <View style={styles.registerButton}>
-                  <Text style={styles.textRegister}>Register</Text>
-                </View>
-              </View>
+const RiderRegister = ({ navigation }) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.head} />
+      <View style={styles.main}>
+        <View style={styles.home}>
+          <Text style={styles.textCassandra}>Cassandra</Text>
+          <View style={styles.switchButton}>
+            <View style={styles.buttonRegister}>
+              <Text style={styles.textButtonRegister}>Register</Text>
+            </View>
+            <View style={styles.buttonLogin}>
+              <Text style={styles.textButtonlogin}>Login</Text>
             </View>
           </View>
+          <View style={styles.registerBox}>
+            <Text style={styles.textStyles}>Brand</Text>
+            <TextInput style={styles.input} />
+            <Text style={styles.textStyles}>CC.</Text>
+            <TextInput style={styles.input} />
+            <Text style={styles.textStyles}>Model</Text>
+            <TextInput style={styles.input} />
+            <Text style={styles.textStyles}>Year</Text>
+            <TextInput style={styles.input} />
+          </View>
+          <TouchableHighlight onPress={() => navigation.navigate('home')} style={styles.buttonHighlight}>
+            <View style={styles.registerButton}>
+              <Text style={styles.textRegister}>Register</Text>
+            </View>
+          </TouchableHighlight>
         </View>
-    )
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     shadowColor: 'black',
     shadowOffset: {
-        width: 0,
-        height: 2,
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.85,
     shadowRadius: 2,
@@ -131,13 +133,17 @@ const styles = StyleSheet.create({
     borderColor: '#C4C4C4',
     marginBottom: 10,
   },
+  buttonHighlight: {
+    position: 'absolute',
+    bottom: 200,
+    borderRadius: 10,
+  },
   registerButton: {
-    backgroundColor: '#18BCBE',
-    width: 350,
-    height: 60,
-    marginTop: 50,
-    right: 30,
-    borderRadius: 10
+    backgroundColor: "#18BCBE",
+    width: 340,
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
   },
   textRegister: {
     color: '#fff',
@@ -145,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
-    marginTop: 15
+    marginTop: 10
   }
 })
 
