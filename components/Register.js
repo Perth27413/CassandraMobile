@@ -1,46 +1,76 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native'
+import BackgroundTimer from 'react-native-background-timer';
+import LottieView from 'lottie-react-native';
 
 const Register = ({ navigation }) => {
+    const [isLoading, setIsLoading] = React.useState(true)
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 3000);
+    }, []);
+
+    const navigationNext = () => {
+        navigation.navigate('riderRegister')
+    }
+
+    const loading = () => {
+        return (
+            <View style={styles.loading}>
+                <LottieView
+                    style={styles.animation}
+                    speed={2.5}
+                    source={require('../assets/47392-delivery-man-with-bike (1).json')}
+                    autoPlay loop
+                />
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
-            <View style={styles.head} />
-            <View style={styles.main}>
-                <View style={styles.home}>
-                    <Text style={styles.textCassandra}>Cassandra</Text>
-                    <View style={styles.switchButton}>
-                        <View style={styles.buttonRegister}>
-                            <Text style={styles.textButtonRegister}>Register</Text>
-                        </View>
-                        <View style={styles.buttonLogin}>
-                            <Text style={styles.textButtonlogin}>Login</Text>
+            {isLoading ? loading() :
+                <View style={{ flex: 1 }}>
+                    <View style={styles.head} />
+                    <View style={styles.main}>
+                        <View style={styles.home}>
+                            <Text style={styles.textCassandra}>Cassandra</Text>
+                            <View style={styles.switchButton}>
+                                <View style={styles.buttonRegister}>
+                                    <Text style={styles.textButtonRegister}>Register</Text>
+                                </View>
+                                <View style={styles.buttonLogin}>
+                                    <Text style={styles.textButtonlogin}>Login</Text>
+                                </View>
+                            </View>
+                            <View style={styles.boxTop}>
+                                <Text style={styles.textLabal}>Username</Text>
+                                <TextInput style={styles.input} />
+                                <Text style={styles.textLabal}>Password</Text>
+                                <TextInput style={styles.input} />
+                            </View>
+                            <View style={styles.boxBottom}>
+                                <Text style={styles.textLabal}>Email</Text>
+                                <TextInput style={styles.input} />
+                                <Text style={styles.textLabal}>First name</Text>
+                                <TextInput style={styles.input} />
+                                <Text style={styles.textLabal}>last name</Text>
+                                <TextInput style={styles.input} />
+                                <Text style={styles.textLabal}>Phone number</Text>
+                                <TextInput style={styles.input} />
+                            </View>
+                            <TouchableHighlight onPress={() => navigationNext()} style={styles.buttonHighlight}>
+                                <View style={styles.nextButton}>
+                                    <Text style={styles.textNext}>Next</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
                     </View>
-                    <View style={styles.boxTop}>
-                        <Text style={styles.textLabal}>Username</Text>
-                        <TextInput style={styles.input} />
-                        <Text style={styles.textLabal}>Password</Text>
-                        <TextInput style={styles.input} />
-                    </View>
-                    <View style={styles.boxBottom}>
-                        <Text style={styles.textLabal}>Email</Text>
-                        <TextInput style={styles.input} />
-                        <Text style={styles.textLabal}>First name</Text>
-                        <TextInput style={styles.input} />
-                        <Text style={styles.textLabal}>last name</Text>
-                        <TextInput style={styles.input} />
-                        <Text style={styles.textLabal}>Phone number</Text>
-                        <TextInput style={styles.input} />
-                    </View>
-                    <TouchableHighlight onPress={() => navigation.navigate('riderRegister')} style={styles.buttonHighlight}>
-                        <View style={styles.nextButton}>
-                            <Text style={styles.textNext}>Next</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
-            </View>
+                </View>}
         </View>
-    ) 
+    )
 }
 
 const styles = StyleSheet.create({
@@ -180,7 +210,20 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: '#C4C4C4',
         marginBottom: 10,
-    }
+    },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#18BCBE'
+    },
+    animation: {
+        width: 150,
+        height: 150,
+
+    },
 })
 
 export default Register

@@ -16,7 +16,6 @@ const Home = ({navigation}) => {
 
   const count = () => {
     setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0 } })
-
   }
 
   React.useEffect(() => {
