@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import LottieView from 'lottie-react-native';
+import React from 'react'
+import LottieView from 'lottie-react-native'
 import { View, Text, StyleSheet, TextInput, TouchableHighlight } from 'react-native'
 
 const RiderRegister = ({ navigation }) => {

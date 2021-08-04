@@ -1,10 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
-import BackgroundTimer from 'react-native-background-timer';
+import BackgroundTimer from 'react-native-background-timer'
+import LottieView from 'lottie-react-native'
+import Axios from 'axios'
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   var timer
+  const [isLoading, setIsLoading] = React.useState(false)
   const [play, setPlay] = React.useState(
     {
       name: 'play',
@@ -13,9 +16,27 @@ const Home = ({navigation}) => {
   const [hours, setHours] = React.useState(0)
   const [minutes, setMinutes] = React.useState(0)
   const [second, setsecond] = React.useState(0)
+  const [dataList, setDataList] = React.useState({})
+  const [userInfo, setUserInfo] = React.useState({})
+  const [positionEntity, setPositionEntity] = React.useState({})
+  const [vehicle, setVehicle] = React.useState({ brand: '', type: '', model: '' })
 
   const count = () => {
     setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0 } })
+  }
+
+  React.useEffect(() => {
+    getHomeAPI()
+  }, [])
+
+  const getHomeAPI = async () => {
+    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=1`).then(res => {
+      let { positionEntity, vehicleEntity } = res.data.userInfo
+      setDataList(res.data)
+      setUserInfo(res.data.userInfo)
+      setPositionEntity(positionEntity)
+      setVehicle({ ...vehicleEntity, ...{ brand: vehicleEntity.brandEntity.brand, type: vehicleEntity.typeEntity.type, model: vehicleEntity.modelEntity.model } })
+    }).catch(error => console.log(error))
   }
 
   React.useEffect(() => {
@@ -43,59 +64,83 @@ const Home = ({navigation}) => {
     }
   }, [minutes])
 
+  const navigationNext = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+      navigation.navigate('detail')
+    }, 2300);
+  }
+
+  const loading = () => {
+    return (
+      <View style={styles.loading}>
+        <LottieView
+          style={styles.animation}
+          speed={2.5}
+          source={require('../assets/47392-delivery-man-with-bike (1).json')}
+          autoPlay loop
+        />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.head} />
-      <View style={styles.main}>
-        <View style={styles.homeContainer}>
-          <View style={styles.imageBox}>
-            <Image style={styles.profileImage} source={{ uri: 'https://static.wikia.nocookie.net/marvelcinematicuniverse/images/5/52/Empire_March_Cover_IW_6_Textless.png/revision/latest?cb=20180325144529' }} />
+      {isLoading ? loading() :
+        <View style={{flex: 1}}>
+          <View style={styles.head} />
+          <View style={styles.main}>
+            <View style={styles.homeContainer}>
+              <View style={styles.imageBox}>
+                <Image style={styles.profileImage} source={{ uri: userInfo.profilePic }} />
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.name}>{userInfo.firstName}  {userInfo.lastName}</Text>
+                <Text style={styles.position}>{positionEntity.position_name}</Text>
+                <View style={styles.conMotorcycle}>
+                  <Text style={styles.motorcycle}>{vehicle.brand} {vehicle.type} {vehicle.model}</Text>
+                </View>
+                <View style={styles.btnBox}>
+                  <View style={styles.totalCarbon}>
+                    <Text style={styles.textTopic}>Total Carbon</Text>
+                    <Text style={styles.textVolume}>{dataList.totalCarbon}</Text>
+                    <Text style={styles.textUnit}>gram</Text>
+                  </View>
+                  <View style={styles.totalEarn}>
+                    <Text style={styles.textTopic}>Total Earn</Text>
+                    <Text style={styles.textVolume}>{dataList.totalEarn}</Text>
+                    <Text style={styles.textUnit}>Dollars</Text>
+                  </View>
+                  <View style={styles.todayCarbon}>
+                    <Text style={styles.textTopic}>Today Carbon</Text>
+                    <Text style={styles.textVolume}>{dataList.todayCarbon}</Text>
+                    <Text style={styles.textUnit}>gram</Text>
+                  </View>
+                  <View style={styles.todayEarn}>
+                    <Text style={styles.textTopic}>Today Earn</Text>
+                    <Text style={styles.textVolume}>{dataList.todayEarn}</Text>
+                    <Text style={styles.textUnit}>Dollars</Text>
+                  </View>
+                </View>
+              </View>
+              <TouchableHighlight onPress={() => count()} style={styles.buttonHighlight} underlayColor='#fff'>
+                <Icon name={play.name} size={80} color="#18BCBE" style={styles.startStopButton} />
+              </TouchableHighlight>
+              <View style={styles.footer}>
+                <View style={styles.iconHome}>
+                  <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
+                </View>
+                <View style={styles.textTime}>
+                  <Text style={{ textAlign: 'center' }}>{hours} hr : {minutes} min : {second} s</Text>
+                </View>
+                <View style={styles.iconLocation}>
+                  <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} onPress={() => navigationNext()} />
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={styles.box}>
-            <Text style={styles.name}>Thanos Ieieie</Text>
-            <Text style={styles.position}>Rider</Text>
-            <View style={styles.conMotorcycle}>
-              <Text style={styles.motorcycle}>Honda Wave 110i</Text>
-            </View>
-            <View style={styles.btnBox}>
-              <View style={styles.totalCarbon}>
-                <Text style={styles.textTopic}>Total Carbon</Text>
-                <Text style={styles.textVolume}>3000</Text>
-                <Text style={styles.textUnit}>gram</Text>
-              </View>
-              <View style={styles.totalEarn}>
-                <Text style={styles.textTopic}>Total Earn</Text>
-                <Text style={styles.textVolume}>30</Text>
-                <Text style={styles.textUnit}>Dollars</Text>
-              </View>
-              <View style={styles.todayCarbon}>
-                <Text style={styles.textTopic}>Today Carbon</Text>
-                <Text style={styles.textVolume}>3000</Text>
-                <Text style={styles.textUnit}>gram</Text>
-              </View>
-              <View style={styles.todayEarn}>
-                <Text style={styles.textTopic}>Today Earn</Text>
-                <Text style={styles.textVolume}>1.2</Text>
-                <Text style={styles.textUnit}>Dollars</Text>
-              </View>
-            </View>
-          </View>
-          <TouchableHighlight onPress={() => count()} style={styles.buttonHighlight} underlayColor='#fff'>
-            <Icon name={play.name} size={80} color="#18BCBE" style={styles.startStopButton} />
-          </TouchableHighlight>
-          <View style={styles.footer}>
-            <View style={styles.iconHome}>
-              <Icon name='home' size={40} color="#18BCBE" style={{ textAlign: 'left' }} />
-            </View>
-            <View style={styles.textTime}>
-              <Text style={{ textAlign: 'center' }}>{hours} hr : {minutes} min : {second} s</Text>
-            </View>
-            <View style={styles.iconLocation}>
-              <Icon name='enviromento' size={40} color="#18BCBE" style={{ textAlign: 'right' }} onPress={() => navigation.navigate('detail')} />
-            </View>
-          </View>
-        </View>
-      </View>
+        </View>}
     </View>
   )
 }
@@ -179,7 +224,7 @@ const styles = StyleSheet.create({
     borderColor: '#18BCBE'
   },
   motorcycle: {
-    marginTop:4,
+    marginTop: 4,
     fontFamily: 'Roboto-Bold',
     fontSize: 19,
     color: 'black',
@@ -285,8 +330,20 @@ const styles = StyleSheet.create({
     borderRadius: 80 / 2,
     elevation: 2,
     bottom: 27,
-  }
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#18BCBE'
+  },
+  animation: {
+    width: 150,
+    height: 150,
 
+  },
 })
 
 export default Home
