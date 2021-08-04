@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, TextInput, ActivityIndicator } from 'react-native'
-import BackgroundTimer from 'react-native-background-timer';
-import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native'
 
 const Register = ({ navigation }) => {
     const [isLoading, setIsLoading] = React.useState(true)
