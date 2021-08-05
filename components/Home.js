@@ -20,6 +20,10 @@ const Home = ({ navigation }) => {
   const [userInfo, setUserInfo] = React.useState({})
   const [positionEntity, setPositionEntity] = React.useState({})
   const [vehicle, setVehicle] = React.useState({ brand: '', type: '', model: '' })
+  var totalCarbon = (dataList.totalCarbon/1000).toFixed(2)
+  var todayCarbon = (dataList.todayCarbon/1000).toFixed(2)
+  var totalEarn = dataList.totalEarn
+  var todayEarn = dataList.todayEarn
 
   const count = () => {
     setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0 } })
@@ -29,7 +33,7 @@ const Home = ({ navigation }) => {
     getHomeAPI()
   }, [])
 
-  const getHomeAPI = async () => {
+  const getHomeAPI = () => {
     Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=1`).then(res => {
       let { positionEntity, vehicleEntity } = res.data.userInfo
       setDataList(res.data)
@@ -104,22 +108,22 @@ const Home = ({ navigation }) => {
                 <View style={styles.btnBox}>
                   <View style={styles.totalCarbon}>
                     <Text style={styles.textTopic}>Total Carbon</Text>
-                    <Text style={styles.textVolume}>{dataList.totalCarbon}</Text>
-                    <Text style={styles.textUnit}>gram</Text>
+                    <Text style={styles.textVolume}>{totalCarbon}</Text>
+                    <Text style={styles.textUnit}>kg</Text>
                   </View>
                   <View style={styles.totalEarn}>
                     <Text style={styles.textTopic}>Total Earn</Text>
-                    <Text style={styles.textVolume}>{dataList.totalEarn}</Text>
+                    <Text style={styles.textVolume}>{totalEarn}</Text>
                     <Text style={styles.textUnit}>Dollars</Text>
                   </View>
                   <View style={styles.todayCarbon}>
                     <Text style={styles.textTopic}>Today Carbon</Text>
-                    <Text style={styles.textVolume}>{dataList.todayCarbon}</Text>
-                    <Text style={styles.textUnit}>gram</Text>
+                    <Text style={styles.textVolume}>{todayCarbon}</Text>
+                    <Text style={styles.textUnit}>kg</Text>
                   </View>
                   <View style={styles.todayEarn}>
                     <Text style={styles.textTopic}>Today Earn</Text>
-                    <Text style={styles.textVolume}>{dataList.todayEarn}</Text>
+                    <Text style={styles.textVolume}>{todayEarn}</Text>
                     <Text style={styles.textUnit}>Dollars</Text>
                   </View>
                 </View>
