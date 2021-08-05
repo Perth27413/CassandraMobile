@@ -22,8 +22,8 @@ const Home = ({ navigation }) => {
   const [vehicle, setVehicle] = React.useState({ brand: '', type: '', model: '' })
   var totalCarbon = (dataList.totalCarbon/1000).toFixed(2)
   var todayCarbon = (dataList.todayCarbon/1000).toFixed(2)
-  var totalEarn = dataList.totalEarn
-  var todayEarn = dataList.todayEarn
+  var totalEarn = Number(dataList.totalEarn).toFixed(2)
+  var todayEarn = Number(dataList.todayEarn).toFixed(2)
 
   const count = () => {
     setPlay({ ...play, ...{ name: !play.state ? 'pausecircle' : 'play', state: !play.state ? 1 : 0 } })

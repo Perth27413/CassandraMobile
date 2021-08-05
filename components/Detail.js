@@ -7,13 +7,13 @@ const Detail = () => {
   const [total, setTotal] = React.useState({})
   var totalCarbon = (total.totalCarbon / 1000).toFixed(2)
   var avgCarbon = (total.avgCarbon / 1000).toFixed(2)
-  var time = timeSecToHours()
+  var h = Math.floor(total.totalTime / 3600)
+  var m = Math.floor(total.totalTime % 3600 / 60)
+  var s = Math.floor(total.totalTime % 3600 % 60)
 
   React.useEffect(() => {
     getDetailTotalAPI()
     getDetailAPI()
-    console.log(history)
-    console.log(total)
   }, [])
 
   const getDetailAPI = () => {
@@ -27,18 +27,6 @@ const Detail = () => {
       setTotal(res.data)
     }).catch(error => console.log(error))
   }
-
-  const timeSecToHours = () => {
-    var sec = total.totalTime
-    var min = sec/60
-    var hr
-    if (min>59) {
-      
-    }
-
-    return time;
-  }
-
 
   return (
     <View style={styles.container}>
@@ -58,14 +46,14 @@ const Detail = () => {
             <View style={styles.line}></View>
             <View style={styles.textStyle}>
               <Text style={styles.totalTime}>Total Time</Text>
-              <Text style={styles.valueTime}>{timeSecToHours()} s</Text>
+              <Text style={styles.valueTime}>{h > 0 ? h : 0} hr : {m > 0 ? m : 0} min : {s > 0 ? s : 0} s</Text>
             </View>
           </View>
           <Text style={styles.textUpdate}>Last update : เมื่อไม่นานมานี้ </Text>
           <SafeAreaView style={styles.areaView}>
             <FlatList
               style={styles.flatList}
-              data={history}
+              data={history.reverse()}
               renderItem={({ item, index }) => {
                 return (
                   <View style={styles.carbonBox} key={index}>
@@ -74,12 +62,12 @@ const Detail = () => {
                     </View>
                     <View style={styles.right}>
                       <View style={styles.carbonGram}>
-                        <Text style={styles.numberCarbon}>{item.carbonAmount}</Text>
+                        <Text style={styles.numberCarbon}>{Number(item.carbonAmount).toFixed(2)}</Text>
                         <Text style={styles.gram}>gram</Text>
                       </View>
                       <View style={styles.verticleLine}></View>
                       <View style={styles.distance}>
-                        <Text style={styles.kilo}>{item.distanceTotal} km</Text>
+                        <Text style={styles.kilo}>{Number(item.distanceTotal).toFixed(2)} km</Text>
                         <Text style={styles.minute}>{item.tripTime} minute</Text>
                       </View>
                     </View>
@@ -121,7 +109,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 160,
     backgroundColor: '#ffffff',
-    top: 40,
+    top: 20,
     left: 30,
     borderRadius: 10,
     shadowColor: '#000',
@@ -187,7 +175,7 @@ const styles = StyleSheet.create({
   },
   textUpdate: {
     color: '#FD7777',
-    marginTop: 70,
+    marginTop: 40,
     marginLeft: 218,
     fontSize: 13
   },
@@ -284,7 +272,7 @@ const styles = StyleSheet.create({
   areaView: {
     backgroundColor: '#f2f2f2',
     width: '100%',
-    height: 410,
+    height: 450,
     paddingBottom: 5
   },
   flatList: {
