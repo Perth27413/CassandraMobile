@@ -5,7 +5,7 @@ import BackgroundTimer from 'react-native-background-timer'
 import LottieView from 'lottie-react-native'
 import Axios from 'axios'
 
-const Home = ({ navigation }) => {
+const Home = ({ route, navigation }) => {
   var timer
   const [isLoading, setIsLoading] = React.useState(false)
   const [play, setPlay] = React.useState(
@@ -30,11 +30,14 @@ const Home = ({ navigation }) => {
   }
 
   React.useEffect(() => {
-    getHomeAPI()
+    console.log(route.params.response['_W'].userId)
+    getHomeAPI(route.params.response['_W'].userId)
   }, [])
 
-  const getHomeAPI = () => {
-    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=1`).then(res => {
+  const getHomeAPI = (userId) => {
+    let path = `https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=${userId}`
+    console.log(path)
+    Axios.get(path).then(res => {
       let { positionEntity, vehicleEntity } = res.data.userInfo
       setDataList(res.data)
       setUserInfo(res.data.userInfo)

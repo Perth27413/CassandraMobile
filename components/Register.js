@@ -4,15 +4,26 @@ import LottieView from 'lottie-react-native'
 
 const Register = ({ navigation }) => {
     const [isLoading, setIsLoading] = React.useState(true)
+    const [registerRequest, setregisterRequest] = React.useState({
+        "userName": "",
+        "password": "",
+        "vehicle": 0,
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+        "phoneNumber": "",
+        "year": 0
+    })
 
     React.useEffect(() => {
         setTimeout(() => {
             setIsLoading(false)
+            setregisterRequest({...registerRequest, userName: 'IEIE'})
         }, 3000);
     }, []);
 
     const navigationNext = () => {
-        navigation.navigate('riderRegister')
+        navigation.navigate('riderRegister', registerRequest)
     }
 
     const loading = () => {
@@ -46,19 +57,19 @@ const Register = ({ navigation }) => {
                             </View>
                             <View style={styles.boxTop}>
                                 <Text style={styles.textLabal}>Username</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, userName: value})}/>
                                 <Text style={styles.textLabal}>Password</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput secureTextEntry={true} maxLength={10} style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, password: value})} />
                             </View>
                             <View style={styles.boxBottom}>
                                 <Text style={styles.textLabal}>Email</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, email: value})} />
                                 <Text style={styles.textLabal}>First name</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, firstName: value})}/>
                                 <Text style={styles.textLabal}>last name</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, lastName: value})}/>
                                 <Text style={styles.textLabal}>Phone number</Text>
-                                <TextInput style={styles.input} />
+                                <TextInput style={styles.input} onChangeText={value => setregisterRequest({...registerRequest, phoneNumber: value})}/>
                             </View>
                             <TouchableHighlight onPress={() => navigationNext()} style={styles.buttonHighlight}>
                                 <View style={styles.nextButton}>

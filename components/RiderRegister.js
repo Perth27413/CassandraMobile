@@ -1,19 +1,123 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LottieView from 'lottie-react-native'
 import { View, Text, StyleSheet, TextInput, TouchableHighlight } from 'react-native'
+import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
+import { BackgroundColor } from 'jest-matcher-utils/node_modules/chalk';
+import Axios from 'axios'
 
-const RiderRegister = ({ navigation }) => {
-  const [isLoading, setIsLoading] = React.useState(false)
+class RiderRegister extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: true,
+      vehicle: [],
+      brand: "",
+      cc: "",
+      model: "",
+      modelLists: [],
+      registerRequest: {
+        "userName": "",
+        "password": "",
+        "vehicle": 0,
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+        "phoneNumber": "",
+        "year": 0
+      }
+    }
+    
+  }
 
-  const navigationNext = () => {
-    setIsLoading(true)
+  navigationNext = () => {
+    console.log(this.state.registerRequest)
+    let params = this.postRegister()
+    this.setState({
+      isLoading: true
+    })
     setTimeout(() => {
-      setIsLoading(false)
-      navigation.navigate('home')
+      this.setState({
+        isLoading: false
+      })
+      this.props.navigation.navigate('home', { response: params } )
     }, 2300);
   }
 
-  const loading = () => {
+  componentDidMount() {
+    console.log(this.props.route.params)
+    this.setState({
+      registerRequest: this.props.route.params
+    })
+    this.getVehicleData()
+    this.forceUpdate()
+  }
+
+  postRegister = async() => {
+    let response = await Axios.post('https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/register', this.state.registerRequest)
+    console.log(response.data)
+    return response.data
+  }
+
+  getVehicleData = async() => {
+    try {
+      let response = await Axios('https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/user/vehicle')
+      this.setState({
+        vehicle: response.data,
+        isLoading: false
+      })
+    } catch {
+      console.log('Error Fetch Data')
+    }
+  }
+
+  mapResponseToUseObject = async(response) => {
+    let results = []
+    for (const item of response) {
+      let brand = item.brand[0].brand
+      if (results.some(e => e.brand === brand)) {
+        let index = results.findIndex(e => e.brand === brand)
+        results[index].types.push(item.brand[0].type[0])
+      } else {
+        let object = {
+          brandId: item.brand[0].brandId,
+          brand: item.brand[0].brand,
+          types: item.brand[0].type
+        }
+        results.push(object)
+      }
+    }
+    return results
+  }
+
+  getModelFromBrandAndType = () => {
+    var modelArr = []
+    if (this.state.brand && this.state) {
+      this.state.vehicle.filter(e => e.brand === this.state.brand)[0].type.filter(e => e.type === this.state.cc)[0].model.map(item => {
+        modelArr.push(item)
+      })
+      this.setState({
+        modelLists: modelArr
+      })
+    }
+  }
+
+  onBrandSelect = (value) => {
+    this.setState({
+      brand: value,
+      cc: '',
+      model: ''
+    })
+  }
+
+  onTypeSelect = (value) => {
+    this.setState({cc: value}, () => {
+      this.getModelFromBrandAndType()
+    })
+
+  }
+
+  loading = () => {
     return (
       <View style={styles.loading}>
         <LottieView
@@ -26,44 +130,87 @@ const RiderRegister = ({ navigation }) => {
     )
   }
 
-  return (
-
-    <View style={styles.container} >
-      {isLoading ? loading() :
-        <View style={{ flex: 1 }}>
-          <View style={styles.head} />
-          <View style={styles.main}>
-            <View style={styles.home}>
-              <Text style={styles.textCassandra}>Cassandra</Text>
-              <View style={styles.switchButton}>
-                <View style={styles.buttonRegister}>
-                  <Text style={styles.textButtonRegister}>Register</Text>
+  render() {
+    return (
+      <View style={styles.container} >
+        {this.state.isLoading ? this.loading() :
+          <View style={{ flex: 1 }}>
+            <View style={styles.head} />
+            <View style={styles.main}>
+              <View style={styles.home}>
+                <Text style={styles.textCassandra}>Cassandra</Text>
+                <View style={styles.switchButton}>
+                  <View style={styles.buttonRegister}>
+                    <Text style={styles.textButtonRegister}>Register</Text>
+                  </View>
+                  <View style={styles.buttonLogin}>
+                    <Text style={styles.textButtonlogin}>Login</Text>
+                  </View>
                 </View>
-                <View style={styles.buttonLogin}>
-                  <Text style={styles.textButtonlogin}>Login</Text>
+                <View style={styles.registerBox}>
+                  <Text style={styles.textStyles}>Brand</Text>
+                  <Picker style={styles.dropdown}
+                    onValueChange={value => this.onBrandSelect(value)}
+                    selectedValue={this.state.brand}
+                    value={this.state.brand}
+                  >
+                    <Picker.Item label="Please Select" value="" style={{color: 'gray'}}/>
+                    {this.state.vehicle.map(item => {
+                      return(
+                        <Picker.Item key={item.brandId} label={item.brand} value={item.brand}/>
+                      )
+                    })}
+                  </Picker>
+                  <Text style={styles.textStyles}>CC.</Text>
+                    <Picker style={styles.dropdown}
+                      onValueChange={value => this.onTypeSelect(value)}
+                      selectedValue={this.state.cc}
+                      value={this.state.cc}
+                      enabled={this.state.brand ? true : false}
+                    >
+                    <Picker.Item label={this.state.brand ? "Please Select" : "Please Select Brand"} value="" style={{color: 'gray'}}/>
+                      {this.state.vehicle.filter(e => this.state.brand ? e.brand === this.state.brand : e)[0].type.sort((a, b) => a.type - b.type).map(item => {
+                        return(
+                          <Picker.Item key={item.typeId} label={item.type} value={item.type}/>
+                        )
+                      })}
+                    </Picker>
+                  <Text style={styles.textStyles}>Model</Text>
+                    <Picker style={styles.dropdown}
+                      onValueChange={value => {
+                        this.setState({
+                          model: value,
+                          registerRequest: {...this.state.registerRequest, vehicle: this.state.modelLists.filter(e => e.model === value)[0].modelId}
+                        })
+                      }}
+                      selectedValue={this.state.model}
+                      value={this.state.model}
+                      enabled={this.state.cc ? true : false}
+                    >
+                    <Picker.Item label={this.state.cc ? "Please Select" : "Please Select CC"} value="" style={{color: 'gray'}}/>
+                      {this.state.modelLists.map(item => {
+                        return (
+                          <Picker.Item key={item.modelId} label={item.model} value={item.model}/>
+                        )
+                      })}
+                    </Picker>
+                  <Text style={styles.textStyles}>Year</Text>
+                  <TextInput style={styles.input} maxLength={4} onChangeText={value => this.setState({
+                    registerRequest: {...this.state.registerRequest, year: Number(value)}
+                  })}/>
                 </View>
+                <TouchableHighlight onPress={() => this.navigationNext()} style={styles.buttonHighlight}>
+                  <View style={styles.registerButton}>
+                    <Text style={styles.textRegister}>Register</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
-              <View style={styles.registerBox}>
-                <Text style={styles.textStyles}>Brand</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>CC.</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>Model</Text>
-                <TextInput style={styles.input} />
-                <Text style={styles.textStyles}>Year</Text>
-                <TextInput style={styles.input} />
-              </View>
-              <TouchableHighlight onPress={() => navigationNext()} style={styles.buttonHighlight}>
-                <View style={styles.registerButton}>
-                  <Text style={styles.textRegister}>Register</Text>
-                </View>
-              </TouchableHighlight>
             </View>
-          </View>
-        </View>}
-    </View >
-
-  )
+          </View>}
+      </View >
+  
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -193,8 +340,12 @@ const styles = StyleSheet.create({
   animation: {
     width: 150,
     height: 150,
-
   },
+  dropdown: {
+    width: '100%',
+    borderWidth: 0.5,
+    borderColor: 'black',
+  }
 })
 
 export default RiderRegister
