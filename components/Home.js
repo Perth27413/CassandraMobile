@@ -7,6 +7,7 @@ import Axios from 'axios'
 
 const Home = ({ route, navigation }) => {
   var timer
+  const [userId, setuserId] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(false)
   const [play, setPlay] = React.useState(
     {
@@ -31,6 +32,7 @@ const Home = ({ route, navigation }) => {
 
   React.useEffect(() => {
     console.log(route.params.response['_W'].userId)
+    setuserId(route.params.response['_W'].userId)
     getHomeAPI(route.params.response['_W'].userId)
   }, [])
 
@@ -75,7 +77,7 @@ const Home = ({ route, navigation }) => {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
-      navigation.navigate('detail')
+      navigation.navigate('detail', { response: userId })
     }, 2300);
   }
 

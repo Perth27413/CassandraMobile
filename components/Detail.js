@@ -2,7 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet, FlatList, SafeAreaView, StatusBar } from 'react-native'
 import Axios from 'axios'
 
-const Detail = () => {
+const Detail = ({ route, navigation }) => {
+  const [userId, setuserId] = React.useState(1)
   const [history, setHistory] = React.useState([])
   const [total, setTotal] = React.useState({})
   var totalCarbon = (total.totalCarbon / 1000).toFixed(2)
@@ -12,18 +13,19 @@ const Detail = () => {
   var s = Math.floor(total.totalTime % 3600 % 60)
 
   React.useEffect(() => {
-    getDetailTotalAPI()
-    getDetailAPI()
+    setuserId(route.params.response)
+    getDetailTotalAPI(1)
+    getDetailAPI(1)
   }, [])
 
-  const getDetailAPI = () => {
-    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/history?userId=1`).then(res => {
+  const getDetailAPI = (id) => {
+    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/history?userId=${id}`).then(res => {
       setHistory(res.data)
     }).catch(error => console.log(error))
   }
 
-  const getDetailTotalAPI = () => {
-    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=1`).then(res => {
+  const getDetailTotalAPI = (id) => {
+    Axios.get(`https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/mobile/home?userId=${id}`).then(res => {
       setTotal(res.data)
     }).catch(error => console.log(error))
   }
@@ -49,11 +51,11 @@ const Detail = () => {
               <Text style={styles.valueTime}>{h > 0 ? h : 0} hr : {m > 0 ? m : 0} min : {s > 0 ? s : 0} s</Text>
             </View>
           </View>
-          <Text style={styles.textUpdate}>Last update : เมื่อไม่นานมานี้ </Text>
+          <Text style={styles.textUpdate}>Last update : {new Date().toISOString().slice(11, 19)}</Text>
           <SafeAreaView style={styles.areaView}>
             <FlatList
               style={styles.flatList}
-              data={history.reverse()}
+              data={history}
               renderItem={({ item, index }) => {
                 return (
                   <View style={styles.carbonBox} key={index}>

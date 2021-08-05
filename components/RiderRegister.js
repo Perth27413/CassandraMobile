@@ -45,7 +45,6 @@ class RiderRegister extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.route.params)
     this.setState({
       registerRequest: this.props.route.params
     })
@@ -61,13 +60,15 @@ class RiderRegister extends React.Component {
 
   getVehicleData = async() => {
     try {
-      let response = await Axios('https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/user/vehicle')
+      let response = await Axios.get('https://fsk328moy9.execute-api.ap-southeast-1.amazonaws.com/dev/user/vehicle')
+      console.log(response.data)
       this.setState({
         vehicle: response.data,
         isLoading: false
       })
-    } catch {
+    } catch(error) {
       console.log('Error Fetch Data')
+      console.log(error)
     }
   }
 
