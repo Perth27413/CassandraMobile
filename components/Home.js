@@ -31,6 +31,7 @@ const Home = ({ route, navigation }) => {
   }
 
   React.useEffect(() => {
+    console.log('In Home')
     console.log(route.params.response['_W'].userId)
     setuserId(route.params.response['_W'].userId)
     getHomeAPI(route.params.response['_W'].userId)

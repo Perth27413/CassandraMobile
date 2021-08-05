@@ -14,8 +14,8 @@ const Detail = ({ route, navigation }) => {
 
   React.useEffect(() => {
     setuserId(route.params.response)
-    getDetailTotalAPI(1)
-    getDetailAPI(1)
+    getDetailTotalAPI(route.params.response)
+    getDetailAPI(route.params.response)
   }, [])
 
   const getDetailAPI = (id) => {
@@ -52,23 +52,29 @@ const Detail = ({ route, navigation }) => {
             </View>
           </View>
           <Text style={styles.textUpdate}>Last update : {new Date().toISOString().slice(11, 19)}</Text>
+          
           <SafeAreaView style={styles.areaView}>
+            {history.length <= 0 &&
+              <View style={styles.noData}>
+                <Text style={{fontSize: 18, fontWeight: 'bold'}}>No Data</Text>
+              </View>
+            }
             <FlatList
               style={styles.flatList}
               data={history}
               renderItem={({ item, index }) => {
                 return (
-                  <View style={styles.carbonBox} key={index}>
-                    <View style={styles.left}>
+                  <View style={styles.carbonBox} key={0}>
+                    <View style={styles.left} key={index}>
                       <Text style={styles.time}>{item.createdAt.slice(11, 16)}</Text>
                     </View>
-                    <View style={styles.right}>
+                    <View style={styles.right} key={item}>
                       <View style={styles.carbonGram}>
                         <Text style={styles.numberCarbon}>{Number(item.carbonAmount).toFixed(2)}</Text>
                         <Text style={styles.gram}>gram</Text>
                       </View>
-                      <View style={styles.verticleLine}></View>
-                      <View style={styles.distance}>
+                      <View style={styles.verticleLine} key={1}></View>
+                      <View style={styles.distance} key={2}>
                         <Text style={styles.kilo}>{Number(item.distanceTotal).toFixed(2)} km</Text>
                         <Text style={styles.minute}>{item.tripTime} minute</Text>
                       </View>
@@ -76,7 +82,7 @@ const Detail = ({ route, navigation }) => {
                   </View>
                 )
               }}
-              keyExtractor={item => item.key}
+              keyExtractor={(item, index) => {index}}
             />
           </SafeAreaView>
         </View>
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
     width: 350,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     marginLeft: 30,
     height: 65,
     top: 5
@@ -279,6 +285,24 @@ const styles = StyleSheet.create({
   },
   flatList: {
     backgroundColor: '#f2f2f2'
+  },
+  noData: {
+    width: 350,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    marginLeft: 30,
+    height: 65,
+    top: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 10,
+      height: 10
+    },
+    shadowOpacity: 1,
+    elevation: 3,
   }
 })
 
